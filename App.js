@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Button from "./components/Button";
 import ImageViewer from "./components/ImageViewer";
