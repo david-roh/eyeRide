@@ -36,3 +36,4 @@ yarn-error.*
 
 # build
 ios/
+android/
