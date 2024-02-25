@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dns.eyeride" // Add this line
     },
     "android": {
       "adaptiveIcon": {
