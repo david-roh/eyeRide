@@ -4,11 +4,14 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
+import { MaterialIcons as Icon2 } from "@expo/vector-icons";
+import { Ionicons as Icon3 } from "@expo/vector-icons";
 
-import CameraDrowsy from "./components/CameraDrowsy";
+import CameraStackNavigator from "./components/CameraStackNavigator";
 import SettingScreen from "./components/SettingScreen";
 import Leaderboard from "./components/Leaderboard";
-import FaceDetectionCamera from './FaceDetectionCamera';
+import Friends from "./components/Friends";
+import FaceDetectionCamera from "./FaceDetectionCamera";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,6 +23,7 @@ export default function App() {
                     screenOptions={({ route }) => ({
                         tabBarIcon: ({ focused, color, size }) => {
                             let iconName;
+                            let IconComponent = Icon;
 
                             if (route.name === "Camera") {
                                 iconName = focused
@@ -29,11 +33,20 @@ export default function App() {
                                 iconName = focused
                                     ? "trophy"
                                     : "trophy-outline";
+                            } else if (route.name === "Friends") {
+                                IconComponent = Icon2;
+                                iconName = focused
+                                    ? "people"
+                                    : "people-outline";
                             } else if (route.name === "Settings") {
-                                iconName = focused ? "cog" : "cog-outline";
+                                IconComponent = Icon3;
+                                iconName = focused
+                                    ? "settings"
+                                    : "settings-outline";
                             }
+
                             return (
-                                <Icon
+                                <IconComponent
                                     name={iconName}
                                     size={size}
                                     color={color}
@@ -45,8 +58,12 @@ export default function App() {
                         tabBarStyle: { backgroundColor: "gray" },
                     })}
                 >
-                    <Tab.Screen name="Camera" component={CameraDrowsy} />
+                    <Tab.Screen
+                        name="Camera"
+                        component={CameraStackNavigator}
+                    />
                     <Tab.Screen name="Leaderboard" component={Leaderboard} />
+                    <Tab.Screen name="Friends" component={Friends} />
                     <Tab.Screen name="Settings" component={SettingScreen} />
                 </Tab.Navigator>
             </NavigationContainer>
