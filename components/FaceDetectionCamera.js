@@ -1,100 +1,71 @@
-// FaceDetectionCamera.js
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Camera } from "expo-camera";
-import * as FaceDetector from "expo-face-detector";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Camera, useCameraDevice } from 'react-native-vision-camera';
+import { detectFaces } from 'react-native-vision-camera-face-detector';
+import { Worklets } from 'react-native-worklets-core';
 
 export default function FaceDetectionCamera() {
-    const [hasPermission, setHasPermission] = useState(null);
-    const [faceData, setFaceData] = useState([]);
+  const device = useCameraDevice('front');
+  const [faces, setFaces] = useState([]);
 
-    useEffect(() => {
-        (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasPermission(status === "granted");
-        })();
-    }, []);
+  useEffect(() => {
+    (async () => {
+      const status = await Camera.requestCameraPermission();
+      console.log({ status });
+    })();
+  }, [device]);
 
-    if (hasPermission === null) {
-        return <View />;
-    }
+  const handleFacesDetection = Worklets.createRunInJsFn((result) => {
+    console.log('detection result', result);
+    setFaces(result.faces);
+  });
 
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-    }
-
-    const getFaceDataView = () => {
-        if (faceData.length === 0) {
-            return (
-                <View style={styles.faces}>
-                    <Text style={styles.faceDesc}>No faces</Text>
-                </View>
-            );
-        } else {
-            return faceData.map((face, index) => {
-                const eyesShut =
-                    face.rightEyeOpenProbability < 0.4 &&
-                    face.leftEyeOpenProbability < 0.4;
-                const winking =
-                    !eyesShut &&
-                    (face.rightEyeOpenProbability < 0.4 ||
-                        face.leftEyeOpenProbability < 0.4);
-                const smiling = face.smilingProbability > 0.7;
-                return (
-                    <View style={styles.faces} key={index}>
-                        <Text style={styles.faceDesc}>
-                            Eyes Shut: {eyesShut.toString()}
-                        </Text>
-                        <Text style={styles.faceDesc}>
-                            Winking: {winking.toString()}
-                        </Text>
-                        <Text style={styles.faceDesc}>
-                            Smiling: {smiling.toString()}
-                        </Text>
-                    </View>
-                );
-            });
-        }
-    };
-
-    const handleFacesDetected = ({ faces }) => {
-        setFaceData(faces);
-        console.log(faces);
-    };
-
-    return (
-        <Camera
-            type={Camera.Constants.Type.front}
-            style={styles.camera}
-            onFacesDetected={handleFacesDetected}
-            faceDetectorSettings={{
-                mode: FaceDetector.FaceDetectorMode.fast,
-                detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
-                runClassifications:
-                    FaceDetector.FaceDetectorClassifications.none,
-                minDetectionInterval: 100,
-                tracking: true,
-            }}
-        >
-            {getFaceDataView()}
-        </Camera>
+  const frameProcessor = useFrameProcessor((frame) => {
+    'worklet';
+    detectFaces(
+      frame,
+      handleFacesDetection, {
+        mode: 'fast',
+        detectLandmarks: 'none',
+        runClassifications: 'none',
+        minDetectionInterval: 100,
+        tracking: true,
+      }
     );
+  }, [handleFacesDetection]);
+
+  return (
+    <View style={{ flex: 1 }}>
+      {!!device ? (
+        <Camera style={StyleSheet.absoluteFill} device={device} frameProcessor={frameProcessor} />
+      ) : (
+        <Text>No Device</Text>
+      )}
+      {faces.map((face, index) => {
+        const eyesShut =
+          face.rightEyeOpenProbability < 0.4 &&
+          face.leftEyeOpenProbability < 0.4;
+        return (
+          <View style={styles.faces} key={index}>
+            <Text style={styles.faceDesc}>
+              Eyes Shut: {eyesShut.toString()}
+            </Text>
+          </View>
+        );
+      })}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    camera: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    faces: {
-        backgroundColor: "#ffffff",
-        alignSelf: "stretch",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: 16,
-    },
-    faceDesc: {
-        fontSize: 20,
-    },
+  faces: {
+    backgroundColor: "#ffffff",
+    alignSelf: "stretch",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 16,
+  },
+  faceDesc: {
+    fontSize: 20,
+  },
 });
