@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import CameraDrowsy from "./CameraDrowsy";
+// import FaceDetectionCamera from "./FaceDetectionCamera";
 
 const Stack = createStackNavigator();
 
