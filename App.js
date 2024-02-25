@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,7 +11,7 @@ import CameraStackNavigator from "./components/CameraStackNavigator";
 import SettingScreen from "./components/SettingScreen";
 import Leaderboard from "./components/Leaderboard";
 import Friends from "./components/Friends";
-import FaceDetectionCamera from "./components/FaceDetectionCamera";
+// import FaceDetectionCamera from "./components/FaceDetectionCamera";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,12 +43,13 @@ export default function App() {
                                 iconName = focused
                                     ? "settings"
                                     : "settings-outline";
-                            } else if (route.name === "FaceDetectionCamera") {
-                                IconComponent = Icon3;
-                                iconName = focused
-                                    ? "settings"
-                                    : "settings-outline";
                             }
+                            // } else if (route.name === "FaceDetectionCamera") {
+                            //     IconComponent = Icon3;
+                            //     iconName = focused
+                            //         ? "settings"
+                            //         : "settings-outline";
+                            // }
 
                             return (
                                 <IconComponent
@@ -61,6 +62,7 @@ export default function App() {
                         tabBarActiveTintColor: "white",
                         tabBarInactiveTintColor: "white",
                         tabBarStyle: { backgroundColor: "gray" },
+                        tabBarShowLabel: false,
                     })}
                 >
                     <Tab.Screen
@@ -70,10 +72,10 @@ export default function App() {
                     <Tab.Screen name="Leaderboard" component={Leaderboard} />
                     <Tab.Screen name="Friends" component={Friends} />
                     <Tab.Screen name="Settings" component={SettingScreen} />
-                    <Tab.Screen
+                    {/* <Tab.Screen
                         name="FaceDetection"
                         component={FaceDetectionCamera}
-                    />
+                    /> */}
                 </Tab.Navigator>
             </NavigationContainer>
         </SafeAreaProvider>
