@@ -26,7 +26,8 @@
     "react-native-vector-icons": "^10.0.3",
     "react-native-web": "~0.19.6",
     "expo-camera": "~14.0.5",
-    "expo-face-detector": "~12.6.1"
+    "expo-face-detector": "~12.6.1",
+    "expo-image": "~1.10.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
