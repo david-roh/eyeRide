@@ -11,6 +11,7 @@ import CameraStackNavigator from "./components/CameraStackNavigator";
 import SettingScreen from "./components/SettingScreen";
 import Leaderboard from "./components/Leaderboard";
 import Friends from "./components/Friends";
+import FaceDetectionCamera from "./FaceDetectionCamera";
 
 const Tab = createBottomTabNavigator();
 
