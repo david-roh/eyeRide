@@ -39,9 +39,9 @@ export default function App() {
                                 />
                             );
                         },
-                        tabBarActiveTintColor: "tomato",
-                        tabBarInactiveTintColor: "gray",
-                        tabBarStyle: { backgroundColor: "#25292e" },
+                        tabBarActiveTintColor: "white",
+                        tabBarInactiveTintColor: "white",
+                        tabBarStyle: { backgroundColor: "gray" },
                     })}
                 >
                     <Tab.Screen name="Camera" component={CameraDrowsy} />
