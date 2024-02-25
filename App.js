@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -12,7 +10,6 @@ import Profile from "./components/Profile";
 import Leaderboard from "./components/Leaderboard";
 import Friends from "./components/Friends";
 import Home from "./components/Home";
-// import FaceDetectionCamera from "./components/FaceDetectionCamera";
 
 const Tab = createBottomTabNavigator();
 
@@ -80,28 +77,3 @@ export default function App() {
         </SafeAreaProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#25292e",
-        alignItems: "center",
-    },
-    imageContainer: {
-        flex: 1,
-        paddingTop: 58,
-    },
-    footerContainer: {
-        flex: 1 / 3,
-        alignItems: "center",
-    },
-    optionsContainer: {
-        position: "absolute",
-        bottom: 80,
-    },
-    optionsRow: {
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-    },
-});
