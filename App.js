@@ -8,9 +8,10 @@ import { MaterialIcons as Icon2 } from "@expo/vector-icons";
 import { Ionicons as Icon3 } from "@expo/vector-icons";
 
 import CameraStackNavigator from "./components/CameraStackNavigator";
-import SettingScreen from "./components/SettingScreen";
+import Profile from "./components/Profile";
 import Leaderboard from "./components/Leaderboard";
 import Friends from "./components/Friends";
+import Home from "./components/Home";
 // import FaceDetectionCamera from "./components/FaceDetectionCamera";
 
 const Tab = createBottomTabNavigator();
@@ -20,12 +21,14 @@ export default function App() {
         <SafeAreaProvider>
             <NavigationContainer>
                 <Tab.Navigator
+                    initialRouteName="eyeRide"
                     screenOptions={({ route }) => ({
                         tabBarIcon: ({ focused, color, size }) => {
                             let iconName;
                             let IconComponent = Icon;
-
-                            if (route.name === "Camera") {
+                            if (route.name === "eyeRide") {
+                                iconName = focused ? "home" : "home-outline";
+                            } else if (route.name === "Camera") {
                                 iconName = focused
                                     ? "camera"
                                     : "camera-outline";
@@ -38,18 +41,12 @@ export default function App() {
                                 iconName = focused
                                     ? "people"
                                     : "people-outline";
-                            } else if (route.name === "Settings") {
+                            } else if (route.name === "Profile") {
                                 IconComponent = Icon3;
                                 iconName = focused
-                                    ? "settings"
-                                    : "settings-outline";
+                                    ? "person-circle"
+                                    : "person-circle-outline";
                             }
-                            // } else if (route.name === "FaceDetectionCamera") {
-                            //     IconComponent = Icon3;
-                            //     iconName = focused
-                            //         ? "settings"
-                            //         : "settings-outline";
-                            // }
 
                             return (
                                 <IconComponent
@@ -59,10 +56,15 @@ export default function App() {
                                 />
                             );
                         },
+                        headerStyle: {
+                            backgroundColor: "#838181",
+                        },
+                        headerTintColor: "white",
                         tabBarActiveTintColor: "white",
                         tabBarInactiveTintColor: "white",
-                        tabBarStyle: { backgroundColor: "gray" },
-                        tabBarShowLabel: false,
+                        tabBarStyle: { backgroundColor: "#838181" },
+                        tabBarShowLabel: true,
+                        headerShown: route.name === "eyeRide" ? false : true,
                     })}
                 >
                     <Tab.Screen
@@ -70,12 +72,9 @@ export default function App() {
                         component={CameraStackNavigator}
                     />
                     <Tab.Screen name="Leaderboard" component={Leaderboard} />
+                    <Tab.Screen name="eyeRide" component={Home} />
                     <Tab.Screen name="Friends" component={Friends} />
-                    <Tab.Screen name="Settings" component={SettingScreen} />
-                    {/* <Tab.Screen
-                        name="FaceDetection"
-                        component={FaceDetectionCamera}
-                    /> */}
+                    <Tab.Screen name="Profile" component={Profile} />
                 </Tab.Navigator>
             </NavigationContainer>
         </SafeAreaProvider>
