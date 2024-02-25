@@ -8,6 +8,7 @@ import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import CameraDrowsy from "./components/CameraDrowsy";
 import SettingScreen from "./components/SettingScreen";
 import Leaderboard from "./components/Leaderboard";
+import FaceDetectionCamera from './FaceDetectionCamera';
 
 const Tab = createBottomTabNavigator();
 
